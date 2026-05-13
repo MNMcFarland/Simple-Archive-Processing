@@ -1,0 +1,67 @@
+% SAP_bb_proc
+%
+% Level 3 data processing for bb sensors
+% applies corrections and computes bb
+%
+% USAGE: [] = SAP_bb_proc(bb,ctd,acs)
+%
+% INPUT
+%   bb - substructure of bb sensor from arc structure array
+%   ctd - time synchronized (level 1) ctd data table
+%   acs - (optional) acs sensor substructure with level 3 data
+%
+% OUTPUT
+%   beta - particulate and total
+%   bb
+%   bb_b
+
+function [beta_t,beta_p,bbt,bbp,bbp_bp] = SAP_bb_proc(bb,ctd,ac)
+
+wvl = bb.info.centroid_lambda_nm;
+theta = bb.info.centroid_theta_deg;
+chi = bb.info.chi_factor;
+pln = bb.info.pathlength_m; % eco_l
+
+beta_l2 = table2array(bb.data2); % level 2 data
+beta_sw = zeros(size(beta_l2));
+b_sw = zeros(size(beta_l2));
+for m = 1:size(beta_l2,1)
+    Tc = ctd.Temp(m);
+    S = ctd.Salinity(m);
+    [betasw,bsw] = sw_scat(wvl,theta,Tc,S); 
+    beta_sw(m,:) = betasw;
+    b_sw(m,:) = bsw;
+    clear('Tc','S','betasw','bsw')
+end
+
+if nargin==3
+    % Interpolate apg and bp to match bb wavelengths
+    apg_eco = interp1(ac.wvl,table2array(ac.apg)',wvl,'linear','extrap')';
+    bp_eco = interp1(ac.wvl,table2array(ac.bp)',wvl,'linear','extrap')';
+
+    beta_t = beta_l2 .* exp(pln.*apg_eco);
+    beta_p = beta_t - beta_sw;
+    bbp = ((2*pi).*beta_p) .* chi;
+    bbt = bbp + (b_sw/2); 
+    bbp_bp = bbp./bp_eco;
+
+    % Bulk refractive index
+    if isfield(ac,'cp_slope')
+        cp_slope = ac.cp_slope;
+        np = zeros(length(cp_slope),size(bbp_bp,2));
+        for w = 1:size(bbp_bp,2)
+            np(:,w) = 1+((bbp_bp(:,w).^(0.5377+(0.4867*((-cp_slope).^2)))).*((1.4676+((2.295*((-cp_slope).^2)))+((2.3113*((-cp_slope).^4))))));
+        end
+    end
+else
+    % no total ac data available
+    beta_t = beta_l2;
+    beta_p = beta_t - beta_sw;
+    bbp = ((2*pi).*beta_p).*chi; % particulate bb without a correction
+    bbt = bbp + (b_sw/2); % total bb
+end
+
+vnm = bb.data2.Properties.VariableNames;
+beta_t = table(beta_t,'VariableNames',replace(vnm,'beta','beta_t'));
+beta_t = table(beta_t,'VariableNames',replace(vnm,'beta','beta_t'));
+
