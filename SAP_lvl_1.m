@@ -72,14 +72,14 @@ end
 for m = 1:length(arcnums) % loop through archives
     sensorNames = fieldnames(arc(m).sns);
     TT = timetable('RowTimes',milliseconds(arc(m).sns.(sensorNames{1}).raw(:,1))); % create empty timetable variable to sync all sensor timetables to
-    idx = struct('start',0,'end',0); % initialize array to contain start and end column indeces for each sensor
+    idx = struct('start',0,'end',0); % initialize array to contain start and end column indices for each sensor
     for xx = 1:numel(sensorNames) % loop through sensors
-        idx(xx).start = size(TT,2)+1; % column start indeces for each sensor in TT 
+        idx(xx).start = size(TT,2)+1; % column start indices for each sensor in TT 
         rtm = milliseconds(arc(m).sns.(sensorNames{xx}).raw(:,1)); % row times as milliseconds duration
         tt = array2timetable(arc(m).sns.(sensorNames{xx}).raw(:,2:end),'RowTimes',rtm); % convert to timetable
         TT = synchronize(TT,tt); % synchronize will default to the 'mean' method when samples share the same TimeStamp. Samples share the same timestamp when instrument is sending data packets faster than DH4 sample rate (DH4 sample rate usually 170 ms, ~ 6 Hz)
         TT = fillmissing(TT,'nearest');
-        idx(xx).end = size(TT,2); % column end indeces for each sensor in TT
+        idx(xx).end = size(TT,2); % column end indices for each sensor in TT
     end
     % add synchronized data to arc
     for n = 1:numel(sensorNames)

@@ -43,7 +43,7 @@ for m = 1:numel(arc) % loop through archives
         arc(m).sns.(sensors{n}).chl_lh = chl_lh;
 
         % compute bp if ag data exists - not tested yet
-        idx = find(contains(types,{'acs','ac9','acso32'}) & strcmp(modes,'filter'),1);
+        idx = find(contains(types,{'acs','ac9','acs032'}) & strcmp(modes,'filter'),1);
         if ~isempty(idx)
             ag = table2array(arc(m).sns.(sensors{idx}).ag);
             arc(m).sns.(sensors{n}).ap = apg - ag;

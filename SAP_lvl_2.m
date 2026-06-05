@@ -28,7 +28,6 @@ for m = 1:numel(arc) % loop through archives
                 arc(m).sns.(sensors{n}).data2 = SAP_acs_calcorr(arc(m).sns.(sensors{n}),ctd);
 
             case {'ecobb3','ecofl3','imosc6','ecobb2'}
-
                 % OG
                 sf = arc(m).sns.(sensors{n}).info.cal.scaling_factor;
                 do = arc(m).sns.(sensors{n}).info.cal.dark_offset;
