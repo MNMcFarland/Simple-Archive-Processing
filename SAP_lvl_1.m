@@ -40,11 +40,11 @@ for m = 1:length(arcnums) % loop through each extracted archive file
         
         % fh = str2func(['SAP_' cfg.sensor{n}]); % function handle for this sensor
         
-        if contains(cfg.sensor{n},'acs') % This is a temporary fix to run generalized acs code, ZPW 2024-07-19
-            sensorName = 'acs';
-        else
+        % if contains(cfg.sensor{n},'acs') % This is a temporary fix to run generalized acs code, ZPW 2024-07-19
+        %     sensorName = 'acs';
+        % else
             sensorName = cfg.sensor{n};
-        end
+        % end
 
         
         fh = str2func(['SAP_' sensorName]);
