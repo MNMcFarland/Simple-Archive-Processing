@@ -16,7 +16,10 @@
 % M. McFarland 2024-05-17
 % Inspired by: N. Stockley
 %
-% 2024-08-12... Edited by Z. Wistort, added selection of acs DEV creation date in switch case statement as serial number of the device is non-unqiue to DEV files of same device, example: acs030c and acs030d DEV files have same serial number: 5300001E
+% 2024-08-12... Edited by Z. Wistort, added selection of acs DEV creation date
+% in switch case statement as serial number of the device is non-unqiue to DEV
+% files of same device, example: acs030c and acs030d DEV files have same serial
+% number: 5300001E
 
 function acs = SAP_acs(cfg)
 
