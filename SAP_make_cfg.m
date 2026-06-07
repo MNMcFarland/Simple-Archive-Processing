@@ -1,7 +1,9 @@
 % SAP_make_cfg
 %
-% Make configuration table from extracted archive files
-% located in target folder
+% Make configuration table template from extracted archive files
+% located in target folder (pth input argument). Table will include 
+% archive numbers, port numbers, path and file names.
+% Other variables must be filled in manually.
 %
 % USAGE: 
 %   fullpth = SAP_make_cfg; % open dialog to get target folder location and use default file name ('SAP_cfg.xlsx')
@@ -24,7 +26,7 @@ function fullpth = SAP_make_cfg(name,pth)
 if nargin<2
     pth = uigetdir;
 end
-d = dir([pth filesep 'archive*.*']);
+d = dir([pth filesep '**' filesep 'archive*.*']);
 
 cfg_array = table('Size',[length(d),11],...
     'VariableNames',{'arcnum','portnum','path','fname',...
@@ -48,6 +50,5 @@ else
 end
 
 fullpth = [pth filesep file];
-% writetable(cfg_array,fullpth) % commented out by ZPW 2024-07-18
-
-writetable(cfg_array,file)
+writetable(cfg_array,fullpth) % commented out by ZPW 2024-07-18 - Why? NO! BAD MM 2026-06-07
+% writetable(cfg_array,file) % no, cfg file should be with the data

@@ -39,8 +39,15 @@ for m = 1:numel(arc) % loop through archives
             case 'o243'
                 arc(m).sns.(sensors{n}).data2 = SAP_o243_calcorr(arc(m).sns.(sensors{n}),ctd);
 
-            % case 'lisst200x'
-                % SAP_lisst_calcorr
+            case 'lisst200x'
+                zsc = arc(m).sns.(sensors{n}).info.cal.zsc;
+                fzs = arc(m).sns.(sensors{n}).info.cal.fzs;
+                dcal = arc(m).sns.(sensors{n}).info.cal.dcal;
+                VCC = arc(m).sns.(sensors{n}).info.cal.VCC;
+                % correct scattering
+                lisstDataRaw  = table2array(arc(m).sns.(sensors{n}).data1);
+                lisstDataProc = getscat_L200X_ZPWEdit(lisstDataRaw,zsc,fzs,dcal,VCC);
+                arc(m).sns.(sensors{n}).data2 = lisstDataProc;
 
             otherwise
                 disp([sensors{n} ' in archive ' arc(m).num ' skipped'])

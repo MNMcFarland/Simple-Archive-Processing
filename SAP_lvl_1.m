@@ -40,6 +40,7 @@ for m = 1:length(arcnums) % loop through each extracted archive file
         
         % fh = str2func(['SAP_' cfg.sensor{n}]); % function handle for this sensor
         
+        % This if statement breaks the logical architecture of the code, what problem is it solving? removed: 2026-06-07 MM
         % if contains(cfg.sensor{n},'acs') % This is a temporary fix to run generalized acs code, ZPW 2024-07-19
         %     sensorName = 'acs';
         % else

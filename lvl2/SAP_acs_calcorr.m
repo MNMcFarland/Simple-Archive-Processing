@@ -18,8 +18,8 @@
 
 function data = SAP_acs_calcorr(acs,ctd)
 
-    ai = contains(acs.data1.Properties.VariableNames,'A'); % absorption column indeces
-    ci = contains(acs.data1.Properties.VariableNames,'C'); % attenuation column indeces
+    ai = contains(acs.data1.Properties.VariableNames,'a','IgnoreCase',true); % absorption column indeces
+    ci = contains(acs.data1.Properties.VariableNames,'c','IgnoreCase',true); % attenuation column indeces
     acs_a = acs.data1{:,ai};
     acs_c = acs.data1{:,ci};
 

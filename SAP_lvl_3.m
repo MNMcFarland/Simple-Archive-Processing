@@ -75,15 +75,17 @@ for m = 1:numel(arc) % loop through archives
 
     % LISST
     for n = find(contains(types,{'lisst200x'}))
-        zsc = arc(m).sns.(sensors{n}).info.cal.zsc;
-        fzs = arc(m).sns.(sensors{n}).info.cal.fzs;
-        dcal = arc(m).sns.(sensors{n}).info.cal.dcal;
-        VCC = arc(m).sns.(sensors{n}).info.cal.VCC;
+        % moved to lvl 2
+        % zsc = arc(m).sns.(sensors{n}).info.cal.zsc;
+        % fzs = arc(m).sns.(sensors{n}).info.cal.fzs;
+        % dcal = arc(m).sns.(sensors{n}).info.cal.dcal;
+        % VCC = arc(m).sns.(sensors{n}).info.cal.VCC;
+        % 
+        % % correct scattering
+        % lisstDataRaw  = table2array(arc(m).sns.(sensors{n}).data1);
+        % lisstDataProc = getscat_L200X_ZPWEdit(lisstDataRaw,zsc,fzs,dcal,VCC);
+        lisstDataProc = arc(m).sns.(sensors{n}).data2;
 
-        % correct scattering
-        lisstDataRaw  = table2array(arc(m).sns.(sensors{n}).data1);
-        lisstDataProc = getscat_L200X_ZPWEdit(lisstDataRaw,zsc,fzs,dcal,VCC);
-        
         % Invert particle size concentrations using corrected scattering (cscat)
         % vd parameter is the volume distribution in uL/L
         % for each size bin center in dias (microns)
@@ -92,7 +94,7 @@ for m = 1:numel(arc) % loop through archives
         [rand_vd, rand_dias]   = invert_L200X(lisstDataProc.cscat,1,1,0); % random approximation
         [spher_vd, spher_dias] = invert_L200X(lisstDataProc.cscat,0,1,0); % spherical approximation
         
-        arc(m).sns.(sensors{n}).SeqProc.cscat = lisstDataProc.cscat;
+        % arc(m).sns.(sensors{n}).SeqProc.cscat = lisstDataProc.cscat;
         arc(m).sns.(sensors{n}).SeqProc.rand.vd = rand_vd;
         arc(m).sns.(sensors{n}).SeqProc.rand.dias = rand_dias;
         arc(m).sns.(sensors{n}).SeqProc.spher.vd = spher_vd;

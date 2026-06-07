@@ -24,8 +24,8 @@
 
 function varargout = SAP_ac_proc(ac)
 
-ai = contains(ac.data2.Properties.VariableNames,'A'); % absorption column indeces
-ci = contains(ac.data2.Properties.VariableNames,'C'); % attenuation column indeces
+ai = contains(ac.data2.Properties.VariableNames,'a','IgnoreCase',true); % absorption column indeces
+ci = contains(ac.data2.Properties.VariableNames,'c','IgnoreCase',true); % attenuation column indeces
 am = ac.data2{:,ai}; % measured a values
 cm = ac.data2{:,ci}; % measured c values
 am(am<0) = 0;
