@@ -38,17 +38,16 @@ for m = 1:length(arcnums) % loop through each extracted archive file
     for n = find(strcmp(cfg.arcnum,arcnums{m}))' % loop through each sensor in each archive
         cfg_row = table2struct(cfg(n,:)); % convert cfg table row to struct for input to instrument specific function 
         
-        % fh = str2func(['SAP_' cfg.sensor{n}]); % function handle for this sensor
+        fh = str2func(['SAP_' cfg.sensor{n}]); % function handle for this sensor
         
         % This if statement breaks the logical architecture of the code, what problem is it solving? removed: 2026-06-07 MM
         % if contains(cfg.sensor{n},'acs') % This is a temporary fix to run generalized acs code, ZPW 2024-07-19
         %     sensorName = 'acs';
         % else
-            sensorName = cfg.sensor{n};
+            % sensorName = cfg.sensor{n};
         % end
-
         
-        fh = str2func(['SAP_' sensorName]);
+        % fh = str2func(['SAP_' sensorName]);
         arc(m).sns.(cfg.sensor{n}) = fh(cfg_row);
     end
 end
