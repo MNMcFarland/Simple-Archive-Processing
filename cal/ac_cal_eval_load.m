@@ -36,6 +36,8 @@ disp(select_dev_str)
 %% Load existing device cal.mat file & ts_corr.mat file & match to device wavelengths
 % cd(toolbox_folder);
 ac_cal_mat = strcat(working_ac,'_cal.mat');
+cpth = fileparts(which(ac_cal_mat));
+
 load(ac_cal_mat)
 eval(['working_cal = ' strcat(working_ac,'_cal') ';']);
 eval(['working_corr = ' strcat(working_ac,'_corr') ';']);
@@ -239,7 +241,8 @@ switch ready4save
         %cd(toolbox_folder);
         eval(['' strcat(working_ac,'_cal') ' = working_cal;']);
         eval(['' strcat(working_ac,'_corr') ' = working_corr;']);
-        save(ac_cal_mat,'wl_a','wl_c','col_a','col_c',strcat(working_ac,'_cal'),strcat(working_ac,'_corr'));
+        % save(ac_cal_mat,'wl_a','wl_c','col_a','col_c',strcat(working_ac,'_cal'),strcat(working_ac,'_corr'));
+        save([cpth filesep ac_cal_mat],'wl_a','wl_c','col_a','col_c',strcat(working_ac,'_cal'),strcat(working_ac,'_corr'));
     case {'N','n','NO','No','no'}
         % do nothing!
 end
