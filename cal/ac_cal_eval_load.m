@@ -3,7 +3,7 @@
 %% Set WET Labs Toolbox folder
 % disp('Set path to processing toolbox folder. Type "dbcont" when finished.')
 % keyboard
-toolbox_folder = pwd;
+% toolbox_folder = pwd;
 %toolbox_folder = uigetdir([],'Set path to processing toolbox folder');
 
 %% Select directory with calibration files
@@ -34,7 +34,7 @@ disp(select_dev_str)
 
 % Process for selected AC device
 %% Load existing device cal.mat file & ts_corr.mat file & match to device wavelengths
-cd(toolbox_folder);
+% cd(toolbox_folder);
 ac_cal_mat = strcat(working_ac,'_cal.mat');
 load(ac_cal_mat)
 eval(['working_cal = ' strcat(working_ac,'_cal') ';']);
@@ -231,7 +231,7 @@ if ~strcmp(last_corr_date_str,working_date)
 elseif strcmp(last_corr_date_str,working_date)
     disp('Calibration for selected date already included!')
 end
-cd(toolbox_folder);
+% cd(toolbox_folder);
 %% Save calibration file
 ready4save = input('Ready to save cal? (Y/N): ','s');
 switch ready4save
